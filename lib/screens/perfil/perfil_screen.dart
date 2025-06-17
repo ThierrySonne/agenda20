@@ -1,3 +1,4 @@
+import 'package:agenda20/service/image_picker_widget.dark.dart';
 import 'package:flutter/material.dart';
 
 import '../login_screen.dart';
@@ -22,6 +23,7 @@ class PerfilScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Text('Edição de perfil, informações pessoais, foto e dados', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,),),
+                    ImagePickerWidget(),
                   ],
                 ),
               ),
