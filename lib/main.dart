@@ -7,8 +7,8 @@ void main() {
 
   _geraPersonagens(){
 
-    Personagem p1 = Personagem(1, 'Christian', 'Ocultista', 3, 'Filhos do Caos');
-    Personagem p2 = Personagem(2, 'Roberta', 'Especialista', 2, 'Vale da Estranheza');
+    Personagem p1 = Personagem(1, 'Christian', 'Ocultista', '3', 'Filhos do Caos','');
+    Personagem p2 = Personagem(2, 'Roberta', 'Especialista', '2', 'Vale da Estranheza','');
 
     PersonagemDAO.adicionar(p1);
     PersonagemDAO.adicionar(p2);

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:agenda20/database/personagem_dao.dart';
 import 'package:agenda20/screens/personagens/personagens_add.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,9 @@ class PersonagensList extends StatefulWidget {
 }
 
 class _PersonagensListState extends State<PersonagensList> {
+
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -42,7 +47,15 @@ class _PersonagensListState extends State<PersonagensList> {
                   itemCount: personagens.length,
                   itemBuilder: (context, index) {
                     final Personagem p = personagens[index];
-                    return _ItemLista(p);
+                    return _ItemLista(p, onClick: (){
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context)=> PersonagemScreen())
+                      ).then((value) {
+                        setState(() {
+                          debugPrint('Voltou');
+                        });
+                      });
+                    },);
                   }
               ),
             ),
@@ -54,12 +67,16 @@ class _PersonagensListState extends State<PersonagensList> {
         onPressed: (){
 
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => PersonagemScreen()
-          ));
 
-          setState(() {
-            debugPrint('adicionar personagens');
+            builder: (context) => PersonagemScreen()
+          )).then((value) {
+
+            setState(() {
+              debugPrint('adicionar personagens');
+            });
           });
+
+
         },
         child: Icon(Icons.add,
         color: Colors.black,),
@@ -71,16 +88,36 @@ class _PersonagensListState extends State<PersonagensList> {
 class _ItemLista extends StatelessWidget {
 
   final Personagem _personagem;
+  final Function onClick;
 
-  _ItemLista(this._personagem);
+  _ItemLista(this._personagem, {required this.onClick});
+
+  Widget _avatarImagemPersona(){
+
+    var inicial = this._personagem.nome[0].toUpperCase();
+    if(this._personagem.imagem.length> 0){
+      inicial = '';
+    }
+
+    return CircleAvatar(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.purple,
+      backgroundImage: FileImage(File(this._personagem.imagem)),
+      radius: 22.0,
+      child: Text (inicial,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 30.0
+      ),),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage('imagens/lauren.jpeg'),
-          ),
+          leading: _avatarImagemPersona(),
           title: Text(this._personagem.nome, style: TextStyle(fontSize: 24),),
           trailing: _menu(),
         ),
@@ -100,10 +137,7 @@ class _ItemLista extends StatelessWidget {
           debugPrint("Selecionado... $selecionado");
         },
         itemBuilder: (BuildContext context) => <PopupMenuItem<ItensMenuListPersonagem>>[
-          const PopupMenuItem(
-            value: ItensMenuListPersonagem.editar,
-            child: Text('Editar'),
-          ),
+
           const PopupMenuItem(
             value: ItensMenuListPersonagem.apagar,
             child: Text('Apagar'),
@@ -113,4 +147,4 @@ class _ItemLista extends StatelessWidget {
   }
 }
 
-  enum ItensMenuListPersonagem {editar, apagar,}
+  enum ItensMenuListPersonagem { apagar,}
