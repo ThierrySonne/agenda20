@@ -132,6 +132,7 @@ class _ItemLista extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          onTap: () => this.onClick();
           leading: _avatarImagemPersona(),
           title: Text(this._personagem.nome, style: TextStyle(fontSize: 24),),
           trailing: _menu(),
