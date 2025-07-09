@@ -8,6 +8,17 @@ class Personagem {
 
   Personagem(this._id,this._nome,this._classe,this._nivel,this._campanha,this._imagem);
 
+
+  Map<String, dynamic> toMap(){
+    return{
+      'nome' : _nome,
+      'classe' : _classe,
+      'nivel' : _nivel,
+      'campanha' : _campanha,
+      'imagem' : _imagem,
+    };
+  }
+
   int get id{
     return this._id;
   }
@@ -32,4 +43,7 @@ class Personagem {
     return this._imagem;
   }
 
+  @Override
+  String toString() {
+    return 'Personagem(id: $id, nome: $nome, classe: $classe}';
 }
