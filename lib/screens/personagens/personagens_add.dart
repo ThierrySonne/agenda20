@@ -7,6 +7,17 @@ import 'dart:io';
 
 class PersonagemScreen extends StatefulWidget {
 
+  int index;
+  PersonagemScreen({int index}){
+    this.index = index;
+
+    if(this.index == null){
+      this.index = -1;
+    }
+  }
+
+
+
   @override
   State<PersonagemScreen> createState() => _PersonagemScreenState();
 }
@@ -22,8 +33,22 @@ class _PersonagemScreenState extends State<PersonagemScreen> {
 
   final _formkey = GlobalKey<FormState>();
 
+  Personagem _personagem;
+
   @override
   Widget build(BuildContext context) {
+
+    if(widget.index >= 0){
+      debugPrint('editar n sei oq'+widget.index.toString());
+
+      this._personagem = PersonagemDAO.getPersonagem(widget.index);
+      this._nomeController.text = this._personagem.nome;
+      this._classeController.text = this._personagem.classe;
+      this._nivelController.text = this._personagem.nivel;
+      this._campanhaController.text = this._personagem.campanha;
+      this._imagemPersona = this._imagemPersona;
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey,
       appBar: AppBar(

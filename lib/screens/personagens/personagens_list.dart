@@ -7,7 +7,22 @@ import 'package:flutter/material.dart';
 import '../../model/personagem.dart';
 
 class PersonagensList extends StatefulWidget {
-  const PersonagensList({super.key});
+
+
+  late int _index;
+  int get index => _index;
+
+  set index(int value) {
+    _index = value;
+  }
+  PersonagemScreen({int? index}){
+    this.index = index!;
+
+    if(this.index == null){
+      this.index = -1;
+    }
+  }
+
 
   @override
   State<PersonagensList> createState() => _PersonagensListState();
@@ -49,7 +64,7 @@ class _PersonagensListState extends State<PersonagensList> {
                     final Personagem p = personagens[index];
                     return _ItemLista(p, onClick: (){
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context)=> PersonagemScreen())
+                          builder: (context)=> PersonagemScreen( index))
                       ).then((value) {
                         setState(() {
                           debugPrint('Voltou');
