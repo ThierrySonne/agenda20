@@ -34,11 +34,12 @@ class _PersonagemScreenState extends State<PersonagemScreen> {
   final _formkey = GlobalKey<FormState>();
 
   Personagem _personagem;
+  bool _isUpdate = false;
 
   @override
   Widget build(BuildContext context) {
 
-    if(widget.index >= 0){
+    if(widget.index >= 0 && this._isUpdate == false){
       debugPrint('editar n sei oq'+widget.index.toString());
 
       this._personagem = PersonagemDAO.getPersonagem(widget.index);
@@ -47,7 +48,9 @@ class _PersonagemScreenState extends State<PersonagemScreen> {
       this._nivelController.text = this._personagem.nivel;
       this._campanhaController.text = this._personagem.campanha;
       this._imagemPersona = this._imagemPersona;
-    }
+
+      this._isUpdate = true;
+    };
 
     return Scaffold(
       backgroundColor: Colors.grey,
@@ -132,9 +135,14 @@ class _PersonagemScreenState extends State<PersonagemScreen> {
                           this._campanhaController.text,
                           this._imagemPersona
                         );
-                        PersonagemDAO.adicionar(p);
-                        Navigator.of(context).pop();
-                      } else {
+
+                        if(widget.index >= 0){
+                          PacienteDAO.editar(p);
+                          Navigator.of(context).pop();
+                          }else{
+                          PersonagemDAO.adicionar(p);
+                          Navigator.of(context).pop();
+                        } else {
                         debugPrint('formulário inválido');
                       }
                     },
