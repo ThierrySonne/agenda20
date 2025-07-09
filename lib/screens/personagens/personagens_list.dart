@@ -58,21 +58,7 @@ class _PersonagensListState extends State<PersonagensList> {
           Expanded(
             child: Container(
               color: Colors.grey,
-              child: ListView.builder(
-                  itemCount: personagens.length,
-                  itemBuilder: (context, index) {
-                    final Personagem p = personagens[index];
-                    return _ItemLista(p, onClick: (){
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context)=> PersonagemScreen( index))
-                      ).then((value) {
-                        setState(() {
-                          debugPrint('Voltou');
-                        });
-                      });
-                    },);
-                  }
-              ),
+              child: _futureBuilderPersonagem(),
             ),
           ),
         ],
@@ -98,6 +84,73 @@ class _PersonagensListState extends State<PersonagensList> {
       ),
     );
   }
+}
+
+Widget _futureBuilderPersonagem(){
+  return FutureBuilder<List<Pacientes>>(
+    initialData: List(),
+    future: PersonagemDAO.getPersonagem(),
+    builder: (context, snapshot){}
+    switch.(snapshot.connectionState){
+      case ConnectionState.none:
+        break;
+      case ConnectionState.waiting:
+        return Center(
+          child: Column(
+            mainAxisAligment: MainAxisAligment.center,
+            crossAxisAligment: CrossAxisAligment.center,
+            children: <Widget>[
+              CircularProgressIndicator(),
+              Text('Carregando')
+            ],
+          ),
+        );
+        break;
+      case ConnectionState.active:
+        break;
+      case ConnectionState.done:
+        final List<Personagem> contacts = snapshot.data;
+        return ListView.builder(
+                  itemCount: personagens.length,
+                  itemBuilder: (context, index) {
+                    final Personagem p = personagens[index];
+                    return _ItemLista(p, onClick: (){
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context)=> PersonagemScreen( index))
+                      ).then((value) {
+                        setState(() {
+                          debugPrint('Voltou');
+                        });
+                      });
+                    },);
+                  }
+              );
+              break;
+    }
+      return Text('Problemas ao gerar a lista');
+    },
+  );
+}
+
+Widget _oldListaPersonagem() {
+
+  List<Personagem> _personagem = PersonagemDAO.listarPersonagens;
+  
+  return ListView.builder(
+                  itemCount: personagens.length,
+                  itemBuilder: (context, index) {
+                    final Personagem p = personagens[index];
+                    return _ItemLista(p, onClick: (){
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context)=> PersonagemScreen( index))
+                      ).then((value) {
+                        setState(() {
+                          debugPrint('Voltou');
+                        });
+                      });
+                    },);
+                  }
+              ),
 }
 
 class _ItemLista extends StatelessWidget {
