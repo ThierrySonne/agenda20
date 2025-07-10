@@ -87,7 +87,7 @@ class _PersonagensListState extends State<PersonagensList> {
 }
 
 Widget _futureBuilderPersonagem(){
-  return FutureBuilder<List<Pacientes>>(
+  return FutureBuilder<List<Personagem>>(
     initialData: List(),
     future: PersonagemDAO.getPersonagem(),
     builder: (context, snapshot){}
@@ -137,9 +137,9 @@ Widget _oldListaPersonagem() {
   List<Personagem> _personagem = PersonagemDAO.listarPersonagens;
   
   return ListView.builder(
-                  itemCount: personagens.length,
+                  itemCount: _personagem.length,
                   itemBuilder: (context, index) {
-                    final Personagem p = personagens[index];
+                    final Personagem p = _personagem[index];
                     return _ItemLista(p, onClick: (){
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context)=> PersonagemScreen( index))

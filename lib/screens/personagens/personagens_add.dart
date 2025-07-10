@@ -1,6 +1,5 @@
 import 'package:agenda20/database/personagem_dao.dart';
 import 'package:agenda20/model/personagem.dart';
-import 'package:agenda20/service/image_picker_widget.dark.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -8,7 +7,7 @@ import 'dart:io';
 class PersonagemScreen extends StatefulWidget {
 
   int index;
-  PersonagemScreen({int index}){
+  PersonagemScreen(int index, {int index}){
     this.index = index;
 
     if(this.index == null){
@@ -137,19 +136,18 @@ class _PersonagemScreenState extends State<PersonagemScreen> {
                         );
 
                         if(widget.index >= 0){
-                          PacienteDAO.editar(p);
+                          PersonagemDAO.editar(p);
                           Navigator.of(context).pop();
                           }else{
                           PersonagemDAO.adicionar(p);
                           Navigator.of(context).pop();
-                        } else {
+                        };else {
                         debugPrint('formulário inválido');
                       }
-                    },
+                    }
                     child: Text(
-                      'SALVAR', style: TextStyle(color: Colors.black),),
-                  ),
-                ),
+                      'SALVAR', style: TextStyle(color: Colors.black),);
+                , child: null,),
               )
             ],
           ),

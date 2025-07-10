@@ -1,8 +1,11 @@
 import 'package:agenda20/model/personagem.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sqflite/sqflite.dart';
+
+import 'openDatabaseDB.dart';
 
 class PersonagemDAO {
-  static final List<Personagem> _personagens = ();
+  static final List<Personagem> _personagens = () as List<Personagem>;
   
   static const String _nomeTabela = 'personagem';
   static const String _col_id = 'id';
@@ -21,7 +24,7 @@ class PersonagemDAO {
     '$_col_imagem TEXT , ';
   
   
-  static adicionar(Personagem p){
+  static adicionar(Personagem p) async {
     _personagens.add(p);
 
     final Database db = await getDatabase();
@@ -34,9 +37,9 @@ class PersonagemDAO {
 
   static void editar(Personagem p){
     debugPrint('novo personagem'+p.toString());
-    debugPrint('lista antiga' ${_personagens});
-    _pacientes.replaceRange(p.id, p.id+1, [p]);
-    );
+    debugPrint('lista antiga' {_personagens});
+    _personagens.replaceRange(p.id, p.id+1, [p]);
+
 
 
   }
@@ -45,13 +48,13 @@ class PersonagemDAO {
   }
 
 
-Future<List<Paciente>> getPacientes() async {
+Future<List<Personagem>> getPersonagens() async {
 
   final Database db = await getDatabase();
 
   final List<Map<String, dynamic>> maps = await db.query(_nomeTabela);
 
-  return List.generate(maps.lenght, (i) {
+  return List.generate(maps.length, (i) {
     return Personagem(
       maps[1][_col_id],
       maps[1][_col_nome],
